@@ -25,12 +25,13 @@ function showPage(list, page) {
 
 // Generates, appends, and adds funcitonality to pagination buttons
 function appendPageLinks(list) {
-  const ul = document.querySelector('.student-list');
+  const div = document.querySelector('.page');
   const pages = Math.round(Math.ceil(list.length/10));
-  for (let i = 1; i < pages.length ; i++) {
+  for (let i = 1; i < pages ; i++) {
     const pageButton = document.createElement('button');
+    pageButton.className = 'pagination';
     pageButton.textContent = i;
-    ul.appendChild(pageButton);
+    div.appendChild(pageButton);
   }
 }
 
