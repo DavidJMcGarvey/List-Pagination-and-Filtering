@@ -24,10 +24,16 @@ function showPage(list, page) {
 }
 
 // Generates, appends, and adds funcitonality to pagination buttons
-function appendPageLinks() {
-  const pageButton = document.createElement('button');
-  // for (let i = 0; i < (list.length/10) ; i++)
+function appendPageLinks(list) {
+  const ul = document.querySelector('.student-list');
+  const pages = Math.round(Math.ceil(list.length/10));
+  for (let i = 1; i < pages.length ; i++) {
+    const pageButton = document.createElement('button');
+    pageButton.textContent = i;
+    ul.appendChild(pageButton);
+  }
 }
 
 // Function calls
-showPage(listItems, 1);
+showPage(listItems, 2);
+appendPageLinks(listItems);
