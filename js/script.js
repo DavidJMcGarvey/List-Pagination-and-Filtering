@@ -14,7 +14,7 @@ const pageItems = 10;
 function showPage(list, page) {
   const indexStart = (page * pageItems) - pageItems;
   const indexEnd = page * pageItems;
-  for (let i = 0; i <= list.length ; i++) {
+  for (let i = 0; i <= list.length - 1 ; i++) {
     if (i >= indexStart && i < indexEnd) {
       list[i].style.display = 'block';
     } else {
@@ -35,5 +35,5 @@ function appendPageLinks(list) {
 }
 
 // Function calls
-showPage(listItems, 2);
+showPage(listItems, 6);
 appendPageLinks(listItems);
