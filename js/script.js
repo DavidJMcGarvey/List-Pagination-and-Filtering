@@ -7,10 +7,11 @@ Full Stack JavaScript Techdegree Project 2
 
 // Global variables
 const listItems = document.querySelectorAll('.student-item');
+const buttons = document.querySelectorAll('button.pagination');
 const pageItems = 10;
 
 
-// Hides all but 10 students beween START and END indexes
+// Hides all but 10 students between START and END indexes
 function showPage(list, page) {
   const indexStart = (page * pageItems) - pageItems;
   const indexEnd = page * pageItems;
@@ -26,15 +27,21 @@ function showPage(list, page) {
 // Generates, appends, and adds funcitonality to pagination buttons
 function appendPageLinks(list) {
   const div = document.querySelector('.page');
-  const pages = Math.round(Math.ceil(list.length/10));
+  const pages = Math.round(Math.ceil(list.length/pageItems));
   for (let i = 1; i < pages ; i++) {
     const pageButton = document.createElement('button');
     pageButton.className = 'pagination';
-    pageButton.textContent = i;
+    pageButton.innerHTML = '<a>' + i + '</a>';
     div.appendChild(pageButton);
   }
 }
 
+for (let i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener('click', () => {
+    console.log("something");
+  });
+}
+
 // Function calls
-showPage(listItems, 6);
-appendPageLinks(listItems);
+
+appendPageLinks(showPage(listItems, 1));
