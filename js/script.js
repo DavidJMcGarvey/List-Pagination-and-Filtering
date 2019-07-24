@@ -7,7 +7,6 @@ Full Stack JavaScript Techdegree Project 2
 
 // Global variables
 const listItems = document.querySelectorAll('.student-item');
-const buttons = document.querySelectorAll('button.pagination');
 const pageItems = 10;
 
 
@@ -24,24 +23,21 @@ function showPage(list, page) {
   }
 }
 
-// Generates, appends, and adds funcitonality to pagination buttons
+// Generate, append, and add funcitonality to pagination buttons
 function appendPageLinks(list) {
   const div = document.querySelector('.page');
   const pages = Math.round(Math.ceil(list.length/pageItems));
-  for (let i = 1; i < pages ; i++) {
+  for (let i = 1; i < pages + 1; i++) {
     const pageButton = document.createElement('button');
     pageButton.className = 'pagination';
     pageButton.innerHTML = '<a>' + i + '</a>';
     div.appendChild(pageButton);
+    pageButton.addEventListener('click', () => {
+      showPage(list, i);
+    });
   }
 }
 
-for (let i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener('click', () => {
-    console.log("something");
-  });
-}
-
 // Function calls
-
-appendPageLinks(showPage(listItems, 1));
+showPage(listItems, 1);
+appendPageLinks(listItems);
