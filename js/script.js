@@ -9,7 +9,6 @@ Full Stack JavaScript Techdegree Project 2
 const listItems = document.querySelectorAll('.student-item');
 const pageItems = 10;
 
-
 // Hides all but 10 students between START and END indexes
 function showPage(list, page) {
   const indexStart = (page * pageItems) - pageItems;
@@ -23,22 +22,7 @@ function showPage(list, page) {
   }
 }
 
-// OLD - Generate, append, and add funcitonality to pagination buttons
-// function appendPageLinks(list) {
-//   const div = document.querySelector('.page');
-//   const pages = Math.round(Math.ceil(list.length/pageItems));
-//   for (let i = 1; i < pages + 1; i++) {
-//     const pageButton = document.createElement('button');
-//     pageButton.className = 'pagination';
-//     pageButton.innerHTML = '<a>' + i + '</a>';
-//     div.appendChild(pageButton);
-//     pageButton.addEventListener('click', () => {
-//       showPage(list, i);
-//     });
-//   }
-// }
-
-// NEW -  Generate, append, and add funcitonality to pagination links
+// Generate, append, and add funcitonality to pagination links
 function appendPageLinks(list) {
   const pageDiv = document.querySelector('.page');
   const pages = Math.round(Math.ceil(list.length/pageItems));
@@ -51,21 +35,21 @@ function appendPageLinks(list) {
     const pageLink = document.createElement('a');
     pageLi.appendChild(pageLink);
     ul.appendChild(pageLi);
-
     pageLink.textContent = i;
     pageLink.href = '#';
     div.appendChild(ul);
-    pageLink.addEventListener('click', () => {
+    const current = document.querySelectorAll('a');
+    current[0].className = 'active';
+    pageLink.addEventListener('click', (e) => {
       showPage(list, i);
       const current = document.querySelectorAll('a');
       for (let i = 0; i < current.length; i++) {
-        pageLink.className = 'active';
-        if (current.length > 0) {
+        e.target.className = 'active';
+        if (e.target.className === 'active') {
           current[i].className = current[i].className.replace('active', '');
-          this.className += 'active';
+          e.target.className = 'active';
         }
       }
-
     });
   }
 }
