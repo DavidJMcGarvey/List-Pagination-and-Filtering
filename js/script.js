@@ -23,17 +23,49 @@ function showPage(list, page) {
   }
 }
 
-// Generate, append, and add funcitonality to pagination buttons
+// OLD - Generate, append, and add funcitonality to pagination buttons
+// function appendPageLinks(list) {
+//   const div = document.querySelector('.page');
+//   const pages = Math.round(Math.ceil(list.length/pageItems));
+//   for (let i = 1; i < pages + 1; i++) {
+//     const pageButton = document.createElement('button');
+//     pageButton.className = 'pagination';
+//     pageButton.innerHTML = '<a>' + i + '</a>';
+//     div.appendChild(pageButton);
+//     pageButton.addEventListener('click', () => {
+//       showPage(list, i);
+//     });
+//   }
+// }
+
+// NEW -  Generate, append, and add funcitonality to pagination links
 function appendPageLinks(list) {
-  const div = document.querySelector('.page');
+  const pageDiv = document.querySelector('.page');
   const pages = Math.round(Math.ceil(list.length/pageItems));
+  const div = document.createElement('div');
+  const ul = document.createElement('ul');
+  div.className = 'pagination';
+  pageDiv.appendChild(div);
   for (let i = 1; i < pages + 1; i++) {
-    const pageButton = document.createElement('button');
-    pageButton.className = 'pagination';
-    pageButton.innerHTML = '<a>' + i + '</a>';
-    div.appendChild(pageButton);
-    pageButton.addEventListener('click', () => {
+    const pageLi = document.createElement('li');
+    const pageLink = document.createElement('a');
+    pageLi.appendChild(pageLink);
+    ul.appendChild(pageLi);
+
+    pageLink.textContent = i;
+    pageLink.href = '#';
+    div.appendChild(ul);
+    pageLink.addEventListener('click', () => {
       showPage(list, i);
+      const current = document.querySelectorAll('a');
+      for (let i = 0; i < current.length; i++) {
+        pageLink.className = 'active';
+        if (current.length > 0) {
+          current[i].className = current[i].className.replace('active', '');
+          this.className += 'active';
+        }
+      }
+
     });
   }
 }
