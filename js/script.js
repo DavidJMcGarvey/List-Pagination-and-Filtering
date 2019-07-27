@@ -82,6 +82,40 @@ function searchFunction(input, names) {
 searchButton.addEventListener('click', (e) => {
   e.preventDefault();
   searchFunction(searchInput, searchNames);
+  function appendSearchPageLinks(list) {
+    const oldDiv = document.querySelectorAll('.searchButton');
+    for (let i = 0; i < oldDiv.length; i++) {
+      oldDiv[i].parentNode.removeChild(oldDiv[i]);
+    }
+    const pageDiv = document.querySelector('.page');
+    const pages = Math.round(Math.ceil(list.length/pageItems));
+    const div = document.createElement('div');
+    const ul = document.createElement('ul');
+    div.className = 'pagination searchButton';
+    pageDiv.appendChild(div);
+    for (let i = 1; i < pages + 1; i++) {
+      const pageLi = document.createElement('li');
+      const pageLink = document.createElement('a');
+      pageLi.appendChild(pageLink);
+      ul.appendChild(pageLi);
+      pageLink.textContent = i;
+      pageLink.href = '#';
+      div.appendChild(ul);
+      const current = document.querySelectorAll('a');
+      current[0].className = 'active';
+      pageLink.addEventListener('click', (e) => {
+        showPage(list, i);
+        const current = document.querySelectorAll('a');
+        for (let i = 0; i < current.length; i++) {
+          e.target.className = 'active';
+          if (e.target.className === 'active') {
+            current[i].className = current[i].className.replace('active', '');
+            e.target.className = 'active';
+          }
+        }
+      });
+    }
+  }
   function showSearchPage(list, page) {
     const indexStart = (page * pageItems) - pageItems;
     const indexEnd = page * pageItems;
@@ -91,6 +125,7 @@ searchButton.addEventListener('click', (e) => {
       const student = list[i];
       if (student.className === 'student-item cf match') {
         student.style.display = 'block';
+        appendSearchPageLinks(matches);
       } else if (matches.length === 0) {
         const message = document.createElement('div')
         message.innerHTML = "<h3>--> Search Yielded No Results</h3>";
@@ -101,33 +136,21 @@ searchButton.addEventListener('click', (e) => {
       }
     }
   }
+
   const matches = document.getElementsByClassName('student-item cf match');
   for (let i = 0; i < matches.length; i++) {
     searchList.push(matches[i]);
   }
   showSearchPage(listItems, 1);
-  // appendSearchPageLinks(matches);
+
 });
 
-// NOT SURE
+// NOT SURE IF I'LL USE THIS
 // searchInput.addEventListener('keyup',  () => {
 //   searchFunction(searchInput, searchNames);
 //   console.log('Keyup event on the Search input is functional!');
 // });
 
-
-// TEST - keyup
-// searchInput.addEventListener('keyup', (e) => {
-//   searchInput.textContent += ' ${e.code}';
-//   for (let i = 0; i < names.length; i++ ) {
-//     if (searchInput.value.includes(names[i].textContent)) {
-//       searchButton.addEventListener('click', () => {
-//         searchList.push(names[i].textContent);
-//       });
-//     }
-//   }
-//   console.log();
-// });
 
 // Function calls
 showPage(listItems, 1);
