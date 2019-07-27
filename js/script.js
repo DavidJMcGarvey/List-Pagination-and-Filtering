@@ -54,15 +54,13 @@ function appendPageLinks(list) {
   }
 }
 
-// Generate search component
+// Generate search components
 const pageHeader = document.querySelector('.page-header');
 const searchDiv = document.createElement('div');
 const searchInput = document.createElement('input');
 const searchButton = document.createElement('button');
-
 const searchNames = document.querySelectorAll('li');
 const searchList = [];
-
 searchDiv.className = 'student-search';
 searchInput.placeholder = 'Search for students...';
 searchButton.textContent = 'Search';
@@ -70,9 +68,10 @@ searchDiv.appendChild(searchInput);
 searchDiv.appendChild(searchButton);
 pageHeader.appendChild(searchDiv);
 
-// Search functionality
+// Search functionality, adds class of 'match' to matching students
 function searchFunction(input, names) {
   for (let i = 0; i < names.length; i++) {
+    names[i].className = 'student-item cf';
     if (input.value.length !== 0 && names[i].textContent.toLowerCase().includes(input.value)) {
       names[i].className = 'student-item cf match';
     }
@@ -83,15 +82,33 @@ function searchFunction(input, names) {
 searchButton.addEventListener('click', (e) => {
   e.preventDefault();
   searchFunction(searchInput, searchNames);
-  const matches = document.querySelectorAll('.match')
-  showPage(matches, 1);
+  function showSearchPage(list, page) {
+    const indexStart = (page * pageItems) - pageItems;
+    const indexEnd = page * pageItems;
+    const matches = document.getElementsByClassName('student-item cf match');
+    const nonMatches = document.getElementsByClassName('student-item cf');
+    for (let i = 0; i <= list.length - 1 ; i++) {
+      const student = list[i];
+      if (student.className === 'student-item cf match') {
+        student.style.display = 'block';
+      } else {
+        student.style.display = 'none';
+      }
+    }
+  }
+  const matches = document.getElementsByClassName('student-item cf match');
+  for (let i = 0; i < matches.length; i++) {
+    searchList.push(matches[i]);
+  }
+  showSearchPage(listItems, 1);
+  // appendSearchPageLinks(matches);
 });
 
 // NOT SURE
-searchInput.addEventListener('keyup',  () => {
-  searchFunction(searchInput, searchNames);
-  console.log('Keyup event on the Search input is functional!');
-});
+// searchInput.addEventListener('keyup',  () => {
+//   searchFunction(searchInput, searchNames);
+//   console.log('Keyup event on the Search input is functional!');
+// });
 
 
 // TEST - keyup
@@ -106,8 +123,6 @@ searchInput.addEventListener('keyup',  () => {
 //   }
 //   console.log();
 // });
-
-
 
 // Function calls
 showPage(listItems, 1);
