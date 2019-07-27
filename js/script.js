@@ -91,6 +91,11 @@ searchButton.addEventListener('click', (e) => {
       const student = list[i];
       if (student.className === 'student-item cf match') {
         student.style.display = 'block';
+      } else if (matches.length === 0) {
+        const message = document.createElement('div')
+        message.innerHTML = "<h3>--> Search Yielded No Results</h3>";
+        pageHeader.appendChild(message);
+        break;
       } else {
         student.style.display = 'none';
       }
