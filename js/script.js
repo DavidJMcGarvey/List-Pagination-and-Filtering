@@ -6,9 +6,24 @@ Full Stack JavaScript Techdegree Project 2
 ******************************************/
 
 // Global variables
+
+//
 const listItems = document.querySelectorAll('.student-item');
 const pageItems = 10;
 
+// Generate search components
+const pageHeader = document.querySelector('.page-header');
+const searchDiv = document.createElement('div');
+const searchInput = document.createElement('input');
+const searchButton = document.createElement('button');
+const searchNames = document.querySelectorAll('li');
+const searchList = [];
+searchDiv.className = 'student-search';
+searchInput.placeholder = 'Search for students...';
+searchButton.textContent = 'Search';
+searchDiv.appendChild(searchInput);
+searchDiv.appendChild(searchButton);
+pageHeader.appendChild(searchDiv);
 // Hides all but 10 students between START and END indexes
 function showPage(list, page) {
   const indexStart = (page * pageItems) - pageItems;
@@ -53,20 +68,6 @@ function appendPageLinks(list) {
     });
   }
 }
-
-// Generate search components
-const pageHeader = document.querySelector('.page-header');
-const searchDiv = document.createElement('div');
-const searchInput = document.createElement('input');
-const searchButton = document.createElement('button');
-const searchNames = document.querySelectorAll('li');
-const searchList = [];
-searchDiv.className = 'student-search';
-searchInput.placeholder = 'Search for students...';
-searchButton.textContent = 'Search';
-searchDiv.appendChild(searchInput);
-searchDiv.appendChild(searchButton);
-pageHeader.appendChild(searchDiv);
 
 // Search functionality, adds class of 'match' to matching students
 function searchFunction(input, names) {
@@ -124,8 +125,10 @@ searchButton.addEventListener('click', (e) => {
     for (let i = 0; i <= list.length - 1 ; i++) {
       const student = list[i];
       if (student.className === 'student-item cf match') {
-        student.style.display = 'block';
         appendSearchPageLinks(matches);
+        if (i >= indexStart && i < indexEnd) {
+          student.style.display = 'block';
+        }
       } else if (matches.length === 0) {
         const message = document.createElement('div')
         message.innerHTML = "<h3>--> Search Yielded No Results</h3>";
@@ -136,7 +139,6 @@ searchButton.addEventListener('click', (e) => {
       }
     }
   }
-
   const matches = document.getElementsByClassName('student-item cf match');
   for (let i = 0; i < matches.length; i++) {
     searchList.push(matches[i]);
@@ -145,13 +147,6 @@ searchButton.addEventListener('click', (e) => {
 
 });
 
-// NOT SURE IF I'LL USE THIS
-// searchInput.addEventListener('keyup',  () => {
-//   searchFunction(searchInput, searchNames);
-//   console.log('Keyup event on the Search input is functional!');
-// });
-
-
-// Function calls
+// On load - function calls
 showPage(listItems, 1);
 appendPageLinks(listItems);
