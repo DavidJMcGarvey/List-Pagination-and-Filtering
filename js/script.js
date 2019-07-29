@@ -12,7 +12,6 @@ const pageHeader = document.querySelector('.page-header');
 const searchDiv = document.createElement('div');
 const searchInput = document.createElement('input');
 const searchButton = document.createElement('button');
-const searchNames = document.querySelectorAll('li');
 const searchList = [];
 
 // Hide all but 10 students between START and END indexes
@@ -62,88 +61,20 @@ function appendPageLinks(list) {
 
 // Search functionality, adds class of 'match' to matching students
 function searchFunction(input, names) {
+  const listDiv = document.querySelectorAll('div.pagination, div.list');
+  for (let i = 0; i < listDiv.length; i++) {
+    listDiv[i].style.display = 'none';
+  }
   for (let i = 0; i < names.length; i++) {
     names[i].className = 'student-item cf';
+    names[i].style.display = 'none';
     if (input.value.length !== 0 && names[i].textContent.toLowerCase().includes(input.value)) {
       names[i].className = 'student-item cf match';
+      searchList.push(names[i]);
     }
   }
-}
-
-// Shows first page of search results
-function showSearchPage(list, page) {
-  const indexStart = (page * pageItems) - pageItems;
-  const indexEnd = page * pageItems;
-  const matches = document.getElementsByClassName('student-item cf match');
-  const nonMatches = document.getElementsByClassName('student-item cf');
-  for (let i = 0; i <= list.length - 1 ; i++) {
-    const student = list[i];
-    if (student.className === 'student-item cf match') {
-      appendSearchPageLinks(matches);
-      const searchDiv = document.querySelector('.searchButton');
-      const searchMessage = document.createElement('div');
-      searchMessage.innerHTML = '<h4>Search Pages For -->  ' + searchInput.value + '</h4>';
-      searchMessage.className = 'pagination';
-      searchDiv.appendChild(searchMessage);
-
-      const listDiv = document.querySelector('.list');
-      const listMessage = document.createElement('div');
-      listMessage.innerHTML = '<h4>Pages For Entire Student Catalog</h4>';
-      listMessage.className = 'pagination';
-      listDiv.appendChild(listMessage);
-
-      if (i >= indexStart && i < indexEnd) {
-        student.style.display = 'block';
-      }
-    } else if (matches.length === 0) {
-      const message = document.createElement('div')
-      message.innerHTML = '<h3>--> Search Yielded No Results</h3>';
-      pageHeader.appendChild(message);
-      break;
-    } else {
-      student.style.display = 'none';
-    }
-  }
-}
-
-// Creates pagination for search results
-function appendSearchPageLinks(list) {
-  const oldDiv = document.querySelectorAll('.searchButton');
-  for (let i = 0; i < oldDiv.length; i++) {
-    oldDiv[i].parentNode.removeChild(oldDiv[i]);
-  }
-  const listDiv = document.getElementsByTagName('h4');
-  for (let i = 0; i < listDiv.length; i++) {
-    listDiv[i].parentNode.removeChild(listDiv[i]);
-  }
-  const pageDiv = document.querySelector('.page');
-  const pages = Math.round(Math.ceil(list.length/pageItems));
-  const div = document.createElement('div');
-  const ul = document.createElement('ul');
-  div.className = 'pagination searchButton';
-  pageDiv.appendChild(div);
-  for (let i = 1; i < pages + 1; i++) {
-    const pageLi = document.createElement('li');
-    const pageLink = document.createElement('a');
-    pageLi.appendChild(pageLink);
-    ul.appendChild(pageLi);
-    pageLink.textContent = i;
-    pageLink.href = '#';
-    div.appendChild(ul);
-    const current = document.querySelectorAll('a');
-    current[0].className = 'active';
-    pageLink.addEventListener('click', (e) => {
-      showPage(list, i);
-      const current = document.querySelectorAll('a');
-      for (let i = 0; i < current.length; i++) {
-        e.target.className = 'active';
-        if (e.target.className === 'active') {
-          current[i].className = current[i].className.replace('active', '');
-          e.target.className = 'active';
-        }
-      }
-    });
-  }
+  showPage(searchList, 1);
+  appendPageLinks(searchList);
 }
 
 // Classify search components
@@ -157,13 +88,89 @@ pageHeader.appendChild(searchDiv);
 // Event listener for search button
 searchButton.addEventListener('click', (e) => {
   e.preventDefault();
-  searchFunction(searchInput, searchNames);
-  showSearchPage(listItems, 1);
+  searchFunction(searchInput, listItems);
 });
 
 // On load - function calls
 showPage(listItems, 1);
 appendPageLinks(listItems);
+
+// OLD - Search Functions - Not Great
+// // Shows first page of search results
+// function showSearchPage(list, page) {
+//   const indexStart = (page * pageItems) - pageItems;
+//   const indexEnd = page * pageItems;
+//   const matches = document.getElementsByClassName('student-item cf match');
+//   const nonMatches = document.getElementsByClassName('student-item cf');
+//   for (let i = 0; i <= list.length - 1 ; i++) {
+//     const student = list[i];
+//     if (student.className === 'student-item cf match') {
+//       appendSearchPageLinks(matches);
+//       const searchDiv = document.querySelector('.searchButton');
+//       const searchMessage = document.createElement('div');
+//       searchMessage.innerHTML = '<h4>Search Pages For -->  ' + searchInput.value + '</h4>';
+//       searchMessage.className = 'pagination';
+//       searchDiv.appendChild(searchMessage);
+//
+//       const listDiv = document.querySelector('.list');
+//       const listMessage = document.createElement('div');
+//       listMessage.innerHTML = '<h4>Pages For Entire Student Catalog</h4>';
+//       listMessage.className = 'pagination';
+//       listDiv.appendChild(listMessage);
+//
+//       if (i >= indexStart && i < indexEnd) {
+//         student.style.display = 'block';
+//       }
+//     } else if (matches.length === 0) {
+//       const message = document.createElement('div')
+//       message.innerHTML = '<h3>--> Search Yielded No Results</h3>';
+//       pageHeader.appendChild(message);
+//       break;
+//     } else {
+//       student.style.display = 'none';
+//     }
+//   }
+// }
+//
+// // Creates pagination for search results
+// function appendSearchPageLinks(list) {
+//   const oldDiv = document.querySelectorAll('.searchButton');
+//   for (let i = 0; i < oldDiv.length; i++) {
+//     oldDiv[i].parentNode.removeChild(oldDiv[i]);
+//   }
+//   const listDiv = document.getElementsByTagName('h4');
+//   for (let i = 0; i < listDiv.length; i++) {
+//     listDiv[i].parentNode.removeChild(listDiv[i]);
+//   }
+//   const pageDiv = document.querySelector('.page');
+//   const pages = Math.round(Math.ceil(list.length/pageItems));
+//   const div = document.createElement('div');
+//   const ul = document.createElement('ul');
+//   div.className = 'pagination searchButton';
+//   pageDiv.appendChild(div);
+//   for (let i = 1; i < pages + 1; i++) {
+//     const pageLi = document.createElement('li');
+//     const pageLink = document.createElement('a');
+//     pageLi.appendChild(pageLink);
+//     ul.appendChild(pageLi);
+//     pageLink.textContent = i;
+//     pageLink.href = '#';
+//     div.appendChild(ul);
+//     const current = document.querySelectorAll('a');
+//     current[0].className = 'active';
+//     pageLink.addEventListener('click', (e) => {
+//       showPage(list, i);
+//       const current = document.querySelectorAll('a');
+//       for (let i = 0; i < current.length; i++) {
+//         e.target.className = 'active';
+//         if (e.target.className === 'active') {
+//           current[i].className = current[i].className.replace('active', '');
+//           e.target.className = 'active';
+//         }
+//       }
+//     });
+//   }
+// }
 
 // Author: David J McGarvey
 // Date Created: 2019-07-23

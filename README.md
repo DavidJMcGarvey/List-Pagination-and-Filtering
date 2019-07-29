@@ -11,4 +11,4 @@ The JavaScript file in this directory will enhance the HTML provided by paginati
 **EXTRA FEATURES**
 These is also search functionality built into this app. Search first or last names as well as characters that may be contained in a student name. Search results will first be presented in totality, with pages being available at the bottom to sort through search results.
 
-David McGarvey 2019-07-27
+David J McGarvey 2019-07-27
