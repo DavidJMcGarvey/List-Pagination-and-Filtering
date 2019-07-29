@@ -14,6 +14,14 @@ const searchInput = document.createElement('input');
 const searchButton = document.createElement('button');
 const searchList = [];
 
+// Hover over "Students" heading to see message on how to refresh student list
+const refreshList = document.querySelector('h2');
+refreshList.innerHTML = '<h2><span title="Click this to refresh student list">Students</span></h2>';
+refreshList.addEventListener('click', () => {
+  showPage(listItems, 1);
+  appendPageLinks(listItems);
+});
+
 // Hide all but 10 students between START and END indexes
 function showPage(list, page) {
   const indexStart = (page * pageItems) - pageItems;
@@ -63,7 +71,7 @@ function appendPageLinks(list) {
 function searchFunction(input, names) {
   const listDiv = document.querySelectorAll('div.pagination, div.list');
   for (let i = 0; i < listDiv.length; i++) {
-    listDiv[i].style.display = 'none';
+    listDiv[i].parentNode.removeChild(listDiv[i]);
   }
   for (let i = 0; i < names.length; i++) {
     names[i].className = 'student-item cf';
@@ -71,6 +79,9 @@ function searchFunction(input, names) {
     if (input.value.length !== 0 && names[i].textContent.toLowerCase().includes(input.value)) {
       names[i].className = 'student-item cf match';
       searchList.push(names[i]);
+      if (names[i].className !== 'student-item cf match') {
+        searchList.pop(names[i]);
+      }
     }
   }
   showPage(searchList, 1);
