@@ -16,9 +16,16 @@ const searchInput = document.createElement('input');
 const searchButton = document.createElement('button');
 const searchArray = [];
 
+// Classify and append search components
+searchDiv.className = 'student-search';
+searchInput.placeholder = 'Search for students...';
+searchButton.textContent = 'Search';
+searchDiv.appendChild(searchInput);
+searchDiv.appendChild(searchButton);
+pageHeader.appendChild(searchDiv);
+
 // Remove pagination links so others can replace them
 function removePageLinks() {
-  // messageDiv.parentNode.removeChild(messageDiv);
   const listDiv = document.querySelectorAll('div.pagination, div.list');
   for (let i = 0; i < listDiv.length; i++) {
     listDiv[i].parentNode.removeChild(listDiv[i]);
@@ -69,10 +76,11 @@ function appendPageLinks(list) {
   }
 }
 
-// Search functionality, adds class of 'match' to matching students, also handles no results
+// Adds class of 'match' to matching students, pushes them to searchArray
 function searchFunction(input, names) {
   const searchArray = [];
   removePageLinks();
+  // function to handle NO results returned within searchFunction
   function noResults() {
     const div = document.createElement('div');
     const ul = document.createElement('ul');
@@ -103,16 +111,7 @@ function searchFunction(input, names) {
     showPage(searchArray, 1);
     appendPageLinks(searchArray);
   }
-
 }
-
-// Classify search components
-searchDiv.className = 'student-search';
-searchInput.placeholder = 'Search for students...';
-searchButton.textContent = 'Search';
-searchDiv.appendChild(searchInput);
-searchDiv.appendChild(searchButton);
-pageHeader.appendChild(searchDiv);
 
 // Event listener for search button
 searchButton.addEventListener('click', (e) => {
