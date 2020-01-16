@@ -24,7 +24,6 @@ These is also search functionality built into this app. A search input field and
 ![img](https://user-images.githubusercontent.com/42125523/72555678-ee50ca80-3851-11ea-9336-279b826459f3.png)
 ![img](https://user-images.githubusercontent.com/42125523/72555679-ee50ca80-3851-11ea-889d-295dac69ebf6.png)
 
-David J McGarvey 2019-07-29
-Author: David J McGarvey
-Created: 2019-07-29
-Updated: 2020-01-16
+Author: David J McGarvey  
+Created: 2019-07-29  
+Updated: 2020-01-16  
